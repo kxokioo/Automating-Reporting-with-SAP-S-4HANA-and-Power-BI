@@ -1,0 +1,23 @@
+# ── Environment secrets ──
+.env
+!.env.example
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.db
+.venv/
+venv/
+
+# ── Node ──
+node_modules/
+dist/
+
+# ── IDE ──
+.vscode/
+.idea/
+
+# ── OS ──
+.DS_Store
+Thumbs.db
