@@ -102,8 +102,11 @@ graph TD
 
 ```bash
 cd backend
+cp .env.example .env
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python app/main.py
+python -m uvicorn app.main:app --reload
 ```
 
 _The FastAPI gateway will compile and automatically seed default identity profiles, active connections, and perform an initial ETL mock synchronization. Document logs will output directly to local terminal._
