@@ -102,7 +102,7 @@ graph TD
 
 ```bash
 cd backend
-cp .env.example .env
+.env.example .env
 python -m venv venv
 .\.venv\Scripts\Activate.ps1  # Windows: .\.venv\Scripts\Activate.ps1
 python.exe -m pip install --upgrade pip

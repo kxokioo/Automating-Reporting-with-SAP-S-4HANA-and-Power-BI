@@ -35,7 +35,7 @@ Please read and follow our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before parti
 
    ```bash
    cd backend
-   cp .env.example .env
+   .env.example .env
    python -m venv venv
    .\.venv\Scripts\Activate.ps1  # Windows: .\.venv\Scripts\Activate.ps1
    python.exe -m pip install --upgrade pip
@@ -119,9 +119,9 @@ Fixes #123
 
 ```bash
 cd backend
-pytest              # Run all tests
-pytest -v           # Verbose output
-pytest --cov        # With coverage
+python -m pytest              # Run all tests
+python -m pytest -v           # Verbose output
+python -m pytest --cov        # With coverage
 ```
 
 **Frontend:**
