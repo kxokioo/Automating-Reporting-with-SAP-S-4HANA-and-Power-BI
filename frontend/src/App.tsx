@@ -96,32 +96,11 @@ const MainAppContent: React.FC = () => {
     submitCredentials(usernameInput, passwordInput);
   };
 
-  const handleQuickLogin = (role: string) => {
-    let username = "";
-    let password = "";
-    if (role === "admin") {
-      username = "admin";
-      password = "admin123";
-    } else if (role === "finance") {
-      username = "finance";
-      password = "finance123";
-    } else if (role === "logistics") {
-      username = "logistics";
-      password = "logistics123";
-    } else if (role === "viewer") {
-      username = "viewer";
-      password = "viewer123";
-    }
-    setUsernameInput(username);
-    setPasswordInput(password);
-    submitCredentials(username, password);
-  };
-
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center gap-3">
+      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center gap-3">
         <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
+        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
           Initializing Gateway Session...
         </p>
       </div>
@@ -131,9 +110,9 @@ const MainAppContent: React.FC = () => {
   // Render Redesigned Landing Page & Login Sheet if not authenticated
   if (!user) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col">
+      <div className="min-h-screen bg-zinc-950 flex flex-col">
         {/* Top Header Navigation */}
-        <header className="w-full border-b border-slate-800 bg-slate-900 sticky top-0 z-50">
+        <header className="w-full border-b border-zinc-800 bg-zinc-950 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold text-white text-sm">
@@ -144,7 +123,7 @@ const MainAppContent: React.FC = () => {
               </span>
             </div>
             <div className="flex items-center gap-6">
-              <span className="text-xs text-slate-400 font-medium">System Status: Active</span>
+              <span className="text-xs text-zinc-400 font-medium">System Status: Active</span>
             </div>
           </div>
         </header>
@@ -159,42 +138,42 @@ const MainAppContent: React.FC = () => {
                 <span className="text-xs font-bold uppercase tracking-wider text-blue-500">
                   Enterprise Data Integration
                 </span>
-                <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
                   SAP and Power BI Integration Platform
                 </h1>
-                <p className="text-base text-slate-300 leading-relaxed max-w-xl">
+                <p className="text-base text-zinc-300 leading-relaxed max-w-xl">
                   Aetheris connects SAP ERP databases and analytical queries directly to Power BI reports. The platform coordinates secure general ledger synchronization and tracks inventory levels, providing real-time operational data without third-party middleware.
                 </p>
               </div>
 
               {/* Proof & Metrics Grid */}
               <div className="space-y-4 pt-2">
-                <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                   System Capabilities &amp; Performance
                 </h2>
                 <div className="grid grid-cols-2 gap-6 max-w-lg">
-                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                  <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg">
                     <div className="text-2xl font-bold text-white">4.2M+</div>
-                    <div className="text-xs text-slate-400 leading-normal">Daily Transactions Synchronized</div>
+                    <div className="text-xs text-zinc-400 leading-normal">Daily Transactions Synchronized</div>
                   </div>
-                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                  <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg">
                     <div className="text-2xl font-bold text-white">1.4s</div>
-                    <div className="text-xs text-slate-400 leading-normal">Average Query Latency</div>
+                    <div className="text-xs text-zinc-400 leading-normal">Average Query Latency</div>
                   </div>
-                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                  <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg">
                     <div className="text-2xl font-bold text-white">99.8%</div>
-                    <div className="text-xs text-slate-400 leading-normal">Sync Reliability Score</div>
+                    <div className="text-xs text-zinc-400 leading-normal">Sync Reliability Score</div>
                   </div>
-                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                  <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg">
                     <div className="text-2xl font-bold text-white">Direct</div>
-                    <div className="text-xs text-slate-400 leading-normal">SAP OData Connectivity</div>
+                    <div className="text-xs text-zinc-400 leading-normal">SAP OData Connectivity</div>
                   </div>
                 </div>
               </div>
 
               {/* Concrete Outcome */}
-              <div className="p-5 bg-slate-800 border border-slate-700 rounded-xl max-w-xl">
-                <p className="text-sm text-slate-300 leading-relaxed">
+              <div className="p-5 bg-zinc-900 border border-zinc-800 rounded-lg max-w-xl">
+                <p className="text-sm text-zinc-300 leading-relaxed">
                   <strong>Outcome:</strong> A manufacturing partner reduced month-end financial reconciliation times by 40% using Aetheris general ledger automation.
                 </p>
               </div>
@@ -202,16 +181,16 @@ const MainAppContent: React.FC = () => {
 
             {/* Right Column: Flat Sign In Form */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-md bg-slate-800 p-8 rounded-2xl border border-slate-700 space-y-6 shadow-xl">
+              <div className="w-full max-w-md bg-zinc-900 p-8 rounded-lg border border-zinc-800 space-y-6 shadow-sm">
                 <div className="space-y-1">
                   <h2 className="text-xl font-bold text-white">Sign In</h2>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-zinc-400">
                     Enter your credentials to access the enterprise gateway
                   </p>
                 </div>
 
                 {loginError && (
-                  <div className="p-3 rounded-lg bg-rose-950/40 border border-rose-900/30 text-xs text-rose-300 font-semibold flex items-start gap-2">
+                  <div className="p-3 rounded-md bg-rose-950/40 border border-rose-900/30 text-xs text-rose-300 font-semibold flex items-start gap-2">
                     <ShieldAlert className="w-4 h-4 flex-shrink-0 text-rose-400 mt-0.5" />
                     <span>{loginError}</span>
                   </div>
@@ -219,17 +198,17 @@ const MainAppContent: React.FC = () => {
 
                 <form onSubmit={handleLoginSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
                       Username
                     </label>
                     <div className="relative">
-                      <UserIcon className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                      <UserIcon className="absolute left-3 top-3 w-4 h-4 text-zinc-500" />
                       <input
                         type="text"
                         value={usernameInput}
                         onChange={(e) => setUsernameInput(e.target.value)}
                         disabled={isSubmitting}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all disabled:opacity-50"
+                        className="w-full bg-zinc-950 border border-zinc-800 rounded-md py-2.5 pl-10 pr-4 text-sm text-white outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all disabled:opacity-50"
                         placeholder="Enter username"
                         autoComplete="username"
                         required
@@ -238,17 +217,17 @@ const MainAppContent: React.FC = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
                       Password
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                      <Lock className="absolute left-3 top-3 w-4 h-4 text-zinc-500" />
                       <input
                         type={showPassword ? "text" : "password"}
                         value={passwordInput}
                         onChange={(e) => setPasswordInput(e.target.value)}
                         disabled={isSubmitting}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 pl-10 pr-10 text-sm text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all disabled:opacity-50"
+                        className="w-full bg-zinc-950 border border-zinc-800 rounded-md py-2.5 pl-10 pr-10 text-sm text-white outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all disabled:opacity-50"
                         placeholder="Enter password"
                         autoComplete="current-password"
                         required
@@ -256,7 +235,7 @@ const MainAppContent: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-3 text-slate-500 hover:text-slate-300 transition-colors"
+                        className="absolute right-3 top-3 text-zinc-500 hover:text-zinc-350 transition-colors"
                         disabled={isSubmitting}
                       >
                         {showPassword ? (
@@ -269,7 +248,7 @@ const MainAppContent: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setShowForgotPasswordModal(true)}
-                      className="text-[10px] text-blue-500 hover:text-blue-400 transition-colors font-semibold"
+                      className="text-[10px] text-blue-600 hover:text-blue-500 transition-colors font-semibold"
                     >
                       Forgot Password?
                     </button>
@@ -278,47 +257,35 @@ const MainAppContent: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Authenticating..." : "Authenticate"}
                     {!isSubmitting && <ArrowRight className="w-4 h-4" />}
                   </button>
                 </form>
 
-                {/* Developer Review Quick Clicks */}
-                <div className="pt-4 border-t border-slate-700 space-y-2.5">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    Quick Select Role (Testing)
+                {/* Demo Credentials Info */}
+                <div className="pt-4 border-t border-zinc-800 space-y-2.5">
+                  <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                    Demo Credentials (For Testing)
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin("admin")}
-                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
-                    >
-                      Admin
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin("finance")}
-                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
-                    >
-                      Finance Analyst
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin("logistics")}
-                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
-                    >
-                      Logistics Mgr
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleQuickLogin("viewer")}
-                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
-                    >
-                      Viewer
-                    </button>
+                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
+                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Admin</div>
+                      <div className="text-xs text-zinc-300 font-mono mt-0.5">admin / admin123</div>
+                    </div>
+                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
+                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Finance Analyst</div>
+                      <div className="text-xs text-zinc-300 font-mono mt-0.5">finance / finance123</div>
+                    </div>
+                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
+                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Logistics Mgr</div>
+                      <div className="text-xs text-zinc-300 font-mono mt-0.5">logistics / logistics123</div>
+                    </div>
+                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
+                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Viewer</div>
+                      <div className="text-xs text-zinc-300 font-mono mt-0.5">viewer / viewer123</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -328,12 +295,12 @@ const MainAppContent: React.FC = () => {
         </main>
 
         {/* Footer Area */}
-        <footer className="w-full border-t border-slate-800 py-6 bg-slate-900">
+        <footer className="w-full border-t border-zinc-800 py-6 bg-zinc-950">
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-zinc-400">
               © 2026 Aetheris Analytics. All rights reserved.
             </p>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-zinc-500">
               Access restricted to authorized personnel only. All interactions are monitored and audited.
             </p>
           </div>
@@ -341,22 +308,22 @@ const MainAppContent: React.FC = () => {
 
         {/* Forgot Password Modal */}
         {showForgotPasswordModal && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-            <div className="bg-slate-800 p-6 rounded-2xl shadow-2xl max-w-sm border border-slate-700 space-y-4">
+          <div className="fixed inset-0 bg-black/65 flex items-center justify-center p-4 z-50">
+            <div className="bg-zinc-900 p-6 rounded-lg shadow-md max-w-sm border border-zinc-800 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-blue-600/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-zinc-950 flex items-center justify-center border border-zinc-800">
                   <Lock className="w-5 h-5 text-blue-500" />
                 </div>
                 <h2 className="text-lg font-bold text-white">Password Reset</h2>
               </div>
 
-              <p className="text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-zinc-300 leading-relaxed">
                 Contact your systems administrator to reset your account password.
               </p>
 
               <button
                 onClick={() => setShowForgotPasswordModal(false)}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-sm transition-colors"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md text-sm transition-colors"
               >
                 Close
               </button>
@@ -369,7 +336,7 @@ const MainAppContent: React.FC = () => {
 
   // Render main dashboard frame
   return (
-    <div className="flex min-h-screen bg-slate-900">
+    <div className="flex min-h-screen bg-zinc-950">
       {/* Sidebar navigation */}
       <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
