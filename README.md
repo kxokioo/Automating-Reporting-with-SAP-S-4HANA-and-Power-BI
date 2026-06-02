@@ -1,6 +1,6 @@
 # Aetheris Enterprise Analytics Platform
 
-[![CI/CD Pipeline](https://github.com/kxokioo/Automating-Reporting-with-SAP-S-4HANA-and-Power-BI/actions/workflows/main.yml/badge.svg)](https://github.com/kxokioo/Automating-Reporting-with-SAP-S-4HANA-and-Power-BI/actions)
+[![CI/CD Pipeline](https://github.com/kxokioo/Automating_Reporting_with_SAP_S-4HANA_and_Power-BI/actions/workflows/main.yml/badge.svg)](https://github.com/kxokioo/Automating_Reporting_with_SAP_S-4HANA_and_Power-BI/actions)
 [![SAP Integration](https://img.shields.bwb.sh/badge/SAP-S%2F4HANA%20%2B%20BW%2F4HANA-blue.svg)](https://www.sap.com)
 [![Power BI Embedded](https://img.shields.bwb.sh/badge/Power%20BI-Embedded%20Azure-yellow.svg)](https://powerbi.microsoft.com)
 [![License](https://img.shields.bwb.sh/badge/License-MIT-green.svg)](LICENSE)
