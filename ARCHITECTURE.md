@@ -38,7 +38,7 @@ Aetheris Enterprise Analytics Platform is a modern, cloud-native analytics solut
 └─────────────────────────────────────────────────────────────────┘
          ↑                                           ↑
      ┌────────────────────────────────────────────────────┐
-     │        SAP INTEGRATION LAYER                       │
+     │                SAP INTEGRATION LAYER               │
      │  ┌──────────────────────────────────────────────┐  │
      │  │ • S/4HANA OData V4 Gateway                   │  │
      │  │ • BW/4HANA Analytical Queries (RFC)          │  │

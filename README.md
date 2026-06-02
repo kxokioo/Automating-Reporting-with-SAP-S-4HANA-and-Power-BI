@@ -9,11 +9,11 @@ Aetheris is a next-generation, premium enterprise analytics and reporting platfo
 
 Featuring thread-safe background ETL workflows, granular Role-Based Access Control (RBAC), and an immersive HSL-tailored glassmorphic dashboard interface, Aetheris feels like a real modern enterprise SaaS product.
 
-**⚠️ SECURITY NOTE**: This codebase has been hardened with production-ready security configurations. See [SECURITY.md](SECURITY.md) for detailed security practices and [DEPLOYMENT.md](DEPLOYMENT.md) for production deployment instructions.
+** SECURITY NOTE**: This codebase has been hardened with production-ready security configurations. See [SECURITY.md](SECURITY.md) for detailed security practices and [DEPLOYMENT.md](DEPLOYMENT.md) for production deployment instructions.
 
 ---
 
-## 🌌 High-Fidelity Features
+## High-Fidelity Features
 
 - **SAP S/4HANA OData Core**: Robust Python client library implementing real OData v2/v4 HTTP endpoints with an active, highly realistic simulation seeder (`BKPF` General Ledger & `MARA` Material inventories).
 - **Thread-Safe ETL Orchestrator**: Direct DAG pipeline manager in FastAPI with real-time status triggers, telemetry progress bars, and scrolling green-mono terminal logs.
@@ -23,7 +23,7 @@ Featuring thread-safe background ETL workflows, granular Role-Based Access Contr
 
 ---
 
-## 📐 Platform Architecture
+## Platform Architecture
 
 ```mermaid
 graph TD
@@ -56,7 +56,7 @@ graph TD
 
 ---
 
-## 📂 Repository Blueprint
+## Repository Blueprint
 
 ```
 ├── backend/
@@ -91,7 +91,7 @@ graph TD
 
 ---
 
-## ⚡ Quick Start (Local Development)
+## Quick Start (Local Development)
 
 ### Prerequisites
 
@@ -128,7 +128,7 @@ _The Vite hot reloading development server will launch on port 5173._
 
 ---
 
-## 🛡️ Developer Review Credentials
+## Developer Review Credentials
 
 Aetheris includes **Developer Review Quick Clicks** directly on the authorization card to let you log in as any role instantly. For reference, the seeded logins are:
 
@@ -141,7 +141,7 @@ Aetheris includes **Developer Review Quick Clicks** directly on the authorizatio
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 To spin up the entire production cluster (including PostgreSQL, Redis caches, Nginx static proxies, and Python Uvicorn gateways), simply run:
 
