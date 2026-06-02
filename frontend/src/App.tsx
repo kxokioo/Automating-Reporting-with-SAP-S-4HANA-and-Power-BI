@@ -267,25 +267,29 @@ const MainAppContent: React.FC = () => {
                 {/* Demo Credentials Info */}
                 <div className="pt-4 border-t border-zinc-800 space-y-2.5">
                   <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
-                    Demo Credentials (For Testing)
+                    Demo Credentials — click any card to fill
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
-                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Admin</div>
-                      <div className="text-xs text-zinc-300 font-mono mt-0.5">admin / admin123</div>
-                    </div>
-                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
-                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Finance Analyst</div>
-                      <div className="text-xs text-zinc-300 font-mono mt-0.5">finance / finance123</div>
-                    </div>
-                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
-                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Logistics Mgr</div>
-                      <div className="text-xs text-zinc-300 font-mono mt-0.5">logistics / logistics123</div>
-                    </div>
-                    <div className="bg-zinc-950 border border-zinc-800 p-2.5 rounded text-left">
-                      <div className="text-[10px] font-semibold text-zinc-500 uppercase">Viewer</div>
-                      <div className="text-xs text-zinc-300 font-mono mt-0.5">viewer / viewer123</div>
-                    </div>
+                    {[
+                      { label: "Admin",         user: "admin",     pass: "admin123"     },
+                      { label: "Finance Analyst", user: "finance",   pass: "finance123"   },
+                      { label: "Logistics Mgr",  user: "logistics", pass: "logistics123" },
+                      { label: "Viewer",         user: "viewer",    pass: "viewer123"    },
+                    ].map(({ label, user, pass }) => (
+                      <button
+                        key={user}
+                        type="button"
+                        onClick={() => { setUsernameInput(user); setPasswordInput(pass); }}
+                        className="bg-zinc-800 border border-zinc-600 shadow-sm hover:bg-blue-600 hover:border-blue-500 active:scale-[0.97] p-3 rounded-lg text-left transition-all duration-150 cursor-pointer group"
+                      >
+                        <div className="text-[11px] font-semibold text-zinc-300 group-hover:text-white uppercase tracking-wide transition-colors">
+                          {label}
+                        </div>
+                        <div className="text-xs text-zinc-400 group-hover:text-blue-100 font-mono mt-1 transition-colors">
+                          {user} / {pass}
+                        </div>
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
