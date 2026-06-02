@@ -418,6 +418,8 @@ export const Dashboard: React.FC = () => {
                       border: "1px solid #27272a",
                       borderRadius: "6px",
                     }}
+                    labelStyle={{ color: "#fff", fontWeight: "bold" }}
+                    itemStyle={{ color: "#fff" }}
                     formatter={(v: any) => `$${Number(v).toLocaleString()}`}
                   />
                 </PieChart>

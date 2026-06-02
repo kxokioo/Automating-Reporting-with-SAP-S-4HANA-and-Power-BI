@@ -115,15 +115,14 @@ const MainAppContent: React.FC = () => {
         <header className="w-full border-b border-zinc-800 bg-zinc-950 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold text-white text-sm">
-                A
-              </div>
-              <span className="text-lg font-bold text-white tracking-tight">
-                Aetheris Analytics
-              </span>
+              <img src="/src/assets/logo.svg" alt="Aetheris Analytics" className="w-8 h-8" />
+              <span className="text-lg font-bold text-white tracking-tight">Aetheris Analytics</span>
             </div>
             <div className="flex items-center gap-6">
-              <span className="text-xs text-zinc-400 font-medium">System Status: Active</span>
+              <span className="flex items-center text-xs font-medium text-zinc-400">
+                <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                System Status: Active
+              </span>
             </div>
           </div>
         </header>
