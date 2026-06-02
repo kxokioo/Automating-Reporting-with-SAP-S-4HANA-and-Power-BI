@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 from sqlalchemy.orm import Session
 from app.config import settings
 from app.database.session import get_db
@@ -28,14 +28,16 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=8, max_length=128)
     role: str = Field(default="Viewer", pattern="^(Admin|FinancialAnalyst|LogisticsManager|Viewer)$")
     
-    @validator('username')
+    @field_validator('username')
+    @classmethod
     def validate_username(cls, v):
         """Validate username format"""
         if not all(c.isalnum() or c in '._-' for c in v):
             raise ValueError('Username can only contain alphanumeric characters, dots, underscores, and dashes')
         return v
     
-    @validator('password')
+    @field_validator('password')
+    @classmethod
     def validate_password_strength(cls, v):
         """Ensure password meets minimum complexity requirements"""
         if len(v) < 8:
@@ -54,8 +56,7 @@ class UserResponse(BaseModel):
     role: str
     is_active: bool
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Token(BaseModel):

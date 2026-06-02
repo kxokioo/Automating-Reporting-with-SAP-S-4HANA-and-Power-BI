@@ -4,61 +4,54 @@
 
 @layer base {
   body {
-    background-color: #03001C;
-    background-image: 
-      radial-gradient(at 10% 20%, rgba(127, 0, 255, 0.08) 0px, transparent 50%),
-      radial-gradient(at 90% 80%, rgba(63, 94, 251, 0.08) 0px, transparent 50%);
+    background-color: #0f172a;
   }
 
-  /* Custom Telemetry Scrollbars */
+  /* Custom Flat Scrollbars */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: rgba(15, 12, 41, 0.4);
+    background: #0f172a;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(127, 0, 255, 0.3);
+    background: #334155;
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 242, 254, 0.5);
+    background: #475569;
   }
 }
 
 @layer components {
-  /* Futuristic Dark Glassmorphism */
+  /* Clean Solid Flat Panels */
   .glass-panel {
-    background: rgba(12, 7, 43, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: #1e293b;
+    border: 1px solid #334155;
   }
   
   .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    transition: all 0.2s ease-in-out;
   }
   
   .glass-card:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(127, 0, 255, 0.3);
-    box-shadow: 0 0 25px rgba(127, 0, 255, 0.15);
+    background-color: #334155;
+    border-color: #475569;
   }
 
-  /* Glow Effects */
+  /* Clean solid styles for components to prevent layout/compile errors */
   .neon-glow-violet {
-    box-shadow: 0 0 20px rgba(127, 0, 255, 0.45);
+    box-shadow: none;
   }
   
   .neon-glow-teal {
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.45);
+    box-shadow: none;
   }
 
   .text-neon-teal {
-    color: #00f2fe;
-    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+    color: #3b82f6;
   }
 }

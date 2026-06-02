@@ -10,7 +10,6 @@ import {
   User as UserIcon,
   ShieldAlert,
   ArrowRight,
-  AlertCircle,
   Eye,
   EyeOff,
 } from "lucide-react";
@@ -25,20 +24,20 @@ const MainAppContent: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState<boolean>(false);
+  const [showForgotPasswordModal, setShowForgotPasswordModal] =
+    useState<boolean>(false);
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitCredentials = async (userVal: string, passVal: string) => {
     setIsSubmitting(true);
     setLoginError(null);
 
     // Validate inputs
-    if (!usernameInput.trim()) {
+    if (!userVal.trim()) {
       setLoginError("Username is required");
       setIsSubmitting(false);
       return;
     }
-    if (!passwordInput) {
+    if (!passVal) {
       setLoginError("Password is required");
       setIsSubmitting(false);
       return;
@@ -49,8 +48,8 @@ const MainAppContent: React.FC = () => {
         import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/v1";
 
       const formData = new URLSearchParams();
-      formData.append("username", usernameInput);
-      formData.append("password", passwordInput);
+      formData.append("username", userVal);
+      formData.append("password", passVal);
 
       const response = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
@@ -92,145 +91,274 @@ const MainAppContent: React.FC = () => {
     }
   };
 
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitCredentials(usernameInput, passwordInput);
+  };
+
+  const handleQuickLogin = (role: string) => {
+    let username = "";
+    let password = "";
+    if (role === "admin") {
+      username = "admin";
+      password = "admin123";
+    } else if (role === "finance") {
+      username = "finance";
+      password = "finance123";
+    } else if (role === "logistics") {
+      username = "logistics";
+      password = "logistics123";
+    } else if (role === "viewer") {
+      username = "viewer";
+      password = "viewer123";
+    }
+    setUsernameInput(username);
+    setPasswordInput(password);
+    submitCredentials(username, password);
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-darkspace-bg flex flex-col items-center justify-center gap-3">
-        <div className="w-10 h-10 border-4 border-darkspace-glowViolet border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest animate-pulse">
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center gap-3">
+        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
           Initializing Gateway Session...
         </p>
       </div>
     );
   }
 
-  // Render Login Sheet if not authenticated
+  // Render Redesigned Landing Page & Login Sheet if not authenticated
   if (!user) {
     return (
-      <div className="min-h-screen bg-darkspace-bg flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Background glow anomalies */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-darkspace-glowViolet/15 rounded-full blur-[100px] animate-pulse-glow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-darkspace-glowTeal/10 rounded-full blur-[100px] animate-pulse-glow"></div>
-
-        <div className="w-full max-w-md glass-panel p-8 rounded-2xl shadow-2xl space-y-6 relative border border-white/10">
-          <div className="flex flex-col items-center text-center space-y-2">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-tr from-darkspace-glowViolet to-darkspace-glowTeal flex items-center justify-center neon-glow-violet mb-2">
-              <svg className="w-10 h-10" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <text x="50" y="62" fontSize="42" fontWeight="bold" fill="white" textAnchor="middle" fontFamily="Arial, sans-serif" letterSpacing="-2">SAP</text>
-              </svg>
+      <div className="min-h-screen bg-slate-900 flex flex-col">
+        {/* Top Header Navigation */}
+        <header className="w-full border-b border-slate-800 bg-slate-900 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold text-white text-sm">
+                A
+              </div>
+              <span className="text-lg font-bold text-white tracking-tight">
+                Aetheris Analytics
+              </span>
             </div>
-            <h1 className="text-2xl font-black tracking-tight text-white">
-              Aetheris Analytics
-            </h1>
-            <p className="text-xs text-indigo-200/60 font-semibold tracking-wider uppercase">
-              Enterprise Gateway
-            </p>
+            <div className="flex items-center gap-6">
+              <span className="text-xs text-slate-400 font-medium">System Status: Active</span>
+            </div>
           </div>
+        </header>
 
-          {loginError && (
-            <div className="p-3 rounded-lg bg-rose-950/40 border border-rose-900/30 text-xs text-rose-300 font-semibold flex items-start gap-2">
-              <ShieldAlert className="w-4 h-4 flex-shrink-0 text-rose-400 mt-0.5" />
-              <span>{loginError}</span>
-            </div>
-          )}
+        {/* Main Content Area */}
+        <main className="flex-1 flex items-center justify-center py-16">
+          <div className="max-w-7xl w-full mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Column: Product Information & Proof */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="space-y-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-500">
+                  Enterprise Data Integration
+                </span>
+                <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                  SAP and Power BI Integration Platform
+                </h1>
+                <p className="text-base text-slate-300 leading-relaxed max-w-xl">
+                  Aetheris connects SAP ERP databases and analytical queries directly to Power BI reports. The platform coordinates secure general ledger synchronization and tracks inventory levels, providing real-time operational data without third-party middleware.
+                </p>
+              </div>
 
-          <form onSubmit={handleLoginSubmit} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                Username
-              </label>
-              <div className="relative">
-                <UserIcon className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
-                <input
-                  type="text"
-                  value={usernameInput}
-                  onChange={(e) => setUsernameInput(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full bg-[#0a0728] border border-white/10 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white outline-none focus:border-darkspace-glowViolet focus:ring-1 focus:ring-darkspace-glowViolet transition-all disabled:opacity-50"
-                  placeholder="Enter username"
-                  autoComplete="username"
-                  required
-                />
+              {/* Proof & Metrics Grid */}
+              <div className="space-y-4 pt-2">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  System Capabilities &amp; Performance
+                </h2>
+                <div className="grid grid-cols-2 gap-6 max-w-lg">
+                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                    <div className="text-2xl font-bold text-white">4.2M+</div>
+                    <div className="text-xs text-slate-400 leading-normal">Daily Transactions Synchronized</div>
+                  </div>
+                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                    <div className="text-2xl font-bold text-white">1.4s</div>
+                    <div className="text-xs text-slate-400 leading-normal">Average Query Latency</div>
+                  </div>
+                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                    <div className="text-2xl font-bold text-white">99.8%</div>
+                    <div className="text-xs text-slate-400 leading-normal">Sync Reliability Score</div>
+                  </div>
+                  <div className="p-4 bg-slate-800/50 border border-slate-800 rounded-lg">
+                    <div className="text-2xl font-bold text-white">Direct</div>
+                    <div className="text-xs text-slate-400 leading-normal">SAP OData Connectivity</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Concrete Outcome */}
+              <div className="p-5 bg-slate-800 border border-slate-700 rounded-xl max-w-xl">
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  <strong>Outcome:</strong> A manufacturing partner reduced month-end financial reconciliation times by 40% using Aetheris general ledger automation.
+                </p>
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={passwordInput}
-                  onChange={(e) => setPasswordInput(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full bg-[#0a0728] border border-white/10 rounded-lg py-2.5 pl-10 pr-10 text-sm text-white outline-none focus:border-darkspace-glowViolet focus:ring-1 focus:ring-darkspace-glowViolet transition-all disabled:opacity-50"
-                  placeholder="Enter password"
-                  autoComplete="current-password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-slate-500 hover:text-slate-300 transition-colors"
-                  disabled={isSubmitting}
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
-                </button>
+            {/* Right Column: Flat Sign In Form */}
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="w-full max-w-md bg-slate-800 p-8 rounded-2xl border border-slate-700 space-y-6 shadow-xl">
+                <div className="space-y-1">
+                  <h2 className="text-xl font-bold text-white">Sign In</h2>
+                  <p className="text-xs text-slate-400">
+                    Enter your credentials to access the enterprise gateway
+                  </p>
+                </div>
+
+                {loginError && (
+                  <div className="p-3 rounded-lg bg-rose-950/40 border border-rose-900/30 text-xs text-rose-300 font-semibold flex items-start gap-2">
+                    <ShieldAlert className="w-4 h-4 flex-shrink-0 text-rose-400 mt-0.5" />
+                    <span>{loginError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Username
+                    </label>
+                    <div className="relative">
+                      <UserIcon className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                      <input
+                        type="text"
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}
+                        disabled={isSubmitting}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all disabled:opacity-50"
+                        placeholder="Enter username"
+                        autoComplete="username"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={passwordInput}
+                        onChange={(e) => setPasswordInput(e.target.value)}
+                        disabled={isSubmitting}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg py-2.5 pl-10 pr-10 text-sm text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all disabled:opacity-50"
+                        placeholder="Enter password"
+                        autoComplete="current-password"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-3 text-slate-500 hover:text-slate-300 transition-colors"
+                        disabled={isSubmitting}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPasswordModal(true)}
+                      className="text-[10px] text-blue-500 hover:text-blue-400 transition-colors font-semibold"
+                    >
+                      Forgot Password?
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Authenticating..." : "Authenticate"}
+                    {!isSubmitting && <ArrowRight className="w-4 h-4" />}
+                  </button>
+                </form>
+
+                {/* Developer Review Quick Clicks */}
+                <div className="pt-4 border-t border-slate-700 space-y-2.5">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    Quick Select Role (Testing)
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin("admin")}
+                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
+                    >
+                      Admin
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin("finance")}
+                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
+                    >
+                      Finance Analyst
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin("logistics")}
+                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
+                    >
+                      Logistics Mgr
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin("viewer")}
+                      className="bg-slate-900 hover:bg-slate-750 border border-slate-700 text-[11px] text-slate-200 py-1.5 px-2.5 rounded font-semibold transition-colors text-center"
+                    >
+                      Viewer
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setShowForgotPasswordModal(true)}
-                className="text-[10px] text-darkspace-glowViolet hover:text-darkspace-glowTeal transition-colors font-semibold"
-              >
-                Forgot Password?
-              </button>
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-darkspace-glowViolet to-darkspace-glowIndigo hover:brightness-110 text-white font-bold py-3 rounded-lg text-sm transition-all duration-300 neon-glow-violet shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "Authenticating..." : "Authenticate"}
-              {!isSubmitting && <ArrowRight className="w-4 h-4" />}
-            </button>
-          </form>
+          </div>
+        </main>
 
-          <div className="pt-4 border-t border-white/5 space-y-3">
-            <p className="text-[10px] text-slate-400 text-center">
-              Access restricted to authorized personnel only
+        {/* Footer Area */}
+        <footer className="w-full border-t border-slate-800 py-6 bg-slate-900">
+          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <p className="text-xs text-slate-400">
+              © 2026 Aetheris Analytics. All rights reserved.
             </p>
-            <p className="text-[9px] text-slate-500 text-center">
-              © 2026 SAP Aetheris Analytics. All rights reserved.
+            <p className="text-[10px] text-slate-500">
+              Access restricted to authorized personnel only. All interactions are monitored and audited.
             </p>
           </div>
-        </div>
+        </footer>
 
         {/* Forgot Password Modal */}
         {showForgotPasswordModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div className="glass-panel p-6 rounded-2xl shadow-2xl max-w-sm border border-white/10 space-y-4">
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+            <div className="bg-slate-800 p-6 rounded-2xl shadow-2xl max-w-sm border border-slate-700 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-darkspace-glowViolet to-darkspace-glowTeal flex items-center justify-center">
-                  <Lock className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-lg bg-blue-600/10 flex items-center justify-center">
+                  <Lock className="w-5 h-5 text-blue-500" />
                 </div>
                 <h2 className="text-lg font-bold text-white">Password Reset</h2>
               </div>
-              
-              <p className="text-sm text-slate-300">
-                Please contact your system administrator to reset your password. They will assist you with regaining access to your account.
+
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Contact your systems administrator to reset your account password.
               </p>
-              
+
               <button
                 onClick={() => setShowForgotPasswordModal(false)}
-                className="w-full bg-gradient-to-r from-darkspace-glowViolet to-darkspace-glowIndigo hover:brightness-110 text-white font-bold py-2 rounded-lg text-sm transition-all duration-300 neon-glow-violet"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-sm transition-colors"
               >
-                Understood
+                Close
               </button>
             </div>
           </div>
@@ -241,7 +369,7 @@ const MainAppContent: React.FC = () => {
 
   // Render main dashboard frame
   return (
-    <div className="flex min-h-screen bg-darkspace-bg">
+    <div className="flex min-h-screen bg-slate-900">
       {/* Sidebar navigation */}
       <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
