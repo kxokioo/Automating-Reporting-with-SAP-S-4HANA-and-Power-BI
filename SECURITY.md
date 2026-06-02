@@ -95,7 +95,7 @@ db.execute(query, {"id": user_id})
 **XSS Prevention:**
 
 ```jsx
-// ❌ VULNERABLE
+// VULNERABLE
 <div dangerouslySetInnerHTML={{ __html: userInput }} />
 
 // SAFE - React escapes by default
