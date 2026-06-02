@@ -307,8 +307,8 @@ def get_pipeline_logs(
 
 @router.post("/powerbi/embed-token")
 def generate_powerbi_embed(
-    workspace_id: str = "ws-aetheris-analytics-2026",
-    report_id: str = "rep-sap-executive-dashboard",
+    workspace_id: str = Query("ws-aetheris-analytics-2026", min_length=1, max_length=100, pattern="^[a-zA-Z0-9_-]+$"),
+    report_id: str = Query("rep-sap-executive-dashboard", min_length=1, max_length=100, pattern="^[a-zA-Z0-9_-]+$"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
@@ -330,7 +330,7 @@ def generate_powerbi_embed(
     # Generate realistic secure payload
     return {
         "status": "Authenticated",
-        "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=rep-sap-executive-dashboard&groupId=ws-aetheris-analytics-2026",
+        "embedUrl": f"https://app.powerbi.com/reportEmbed?reportId={report_id}&groupId={workspace_id}",
         "reportId": report_id,
         "workspaceId": workspace_id,
         "tokenType": "EmbedToken",

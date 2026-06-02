@@ -38,10 +38,10 @@ def seed_database():
             if settings.DEBUG:
                 logger.warning("[SECURITY WARNING] Using weak default passwords - for DEVELOPMENT ONLY!")
                 users = [
-                    User(username="admin", hashed_password=get_password_hash("admin123"), role="Admin"),
-                    User(username="finance", hashed_password=get_password_hash("finance123"), role="FinancialAnalyst"),
-                    User(username="logistics", hashed_password=get_password_hash("logistics123"), role="LogisticsManager"),
-                    User(username="viewer", hashed_password=get_password_hash("viewer123"), role="Viewer")
+                    User(username="admin", hashed_password=get_password_hash(settings.SEED_ADMIN_PASSWORD), role="Admin"),
+                    User(username="finance", hashed_password=get_password_hash(settings.SEED_FINANCE_PASSWORD), role="FinancialAnalyst"),
+                    User(username="logistics", hashed_password=get_password_hash(settings.SEED_LOGISTICS_PASSWORD), role="LogisticsManager"),
+                    User(username="viewer", hashed_password=get_password_hash(settings.SEED_VIEWER_PASSWORD), role="Viewer")
                 ]
                 db.add_all(users)
                 db.commit()

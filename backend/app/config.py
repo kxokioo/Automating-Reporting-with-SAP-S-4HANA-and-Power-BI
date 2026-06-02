@@ -1,6 +1,5 @@
 import os
-from pydantic_settings import BaseSettings
-from pydantic import ConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
 
 class Settings(BaseSettings):
@@ -16,6 +15,12 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 120
     LOGIN_MAX_ATTEMPTS: int = 5
     
+    # Seed Database Passwords (must meet complexity requirements)
+    SEED_ADMIN_PASSWORD: str = "AdminPass2026!"
+    SEED_FINANCE_PASSWORD: str = "FinancePass2026!"
+    SEED_LOGISTICS_PASSWORD: str = "LogisticsPass2026!"
+    SEED_VIEWER_PASSWORD: str = "ViewerPass2026!"
+    
     # Database
     DATABASE_URL: str = "sqlite:///./aetheris.db"
     
@@ -30,7 +35,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     LOG_FILE: str = "logs/aetheris.log"
 
-    model_config = ConfigDict(
+    model_config = SettingsConfigDict(
         case_sensitive=True,
         env_file=".env"
     )

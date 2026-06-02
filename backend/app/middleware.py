@@ -32,41 +32,72 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         if os.environ.get("PYTEST_CURRENT_TEST"):
             return await call_next(request)
         
-        # Get client IP
-        client_ip = request.client.host if request.client else "unknown"
+        # Resolve client IP (supporting proxies)
+        forwarded_for = request.headers.get("x-forwarded-for")
+        if forwarded_for:
+            client_ip = forwarded_for.split(",")[0].strip()
+        else:
+            client_ip = request.headers.get("x-real-ip") or (request.client.host if request.client else "unknown")
         
-        # Special handling for login endpoint - stricter limits
-        if request.url.path.endswith("/auth/login"):
+        # Detect authentication endpoints
+        is_auth_route = request.url.path.endswith("/auth/login") or request.url.path.endswith("/auth/register")
+        
+        if is_auth_route:
             max_requests = settings.LOGIN_MAX_ATTEMPTS
-            window_seconds = 900  # 15 minutes
+            window_seconds = 900  # 15 minutes (900 seconds)
         else:
             max_requests = self.max_requests
             window_seconds = self.window_seconds
         
-        # Clean up old requests
+        # Extract username for per-user rate limiting on auth endpoints
+        username = None
+        if is_auth_route and request.method == "POST":
+            content_length = request.headers.get("content-length")
+            if content_length and int(content_length) < 1048576:  # limit body reading to < 1MB for security
+                try:
+                    body_bytes = await request.body()
+                    # Reset request body receive state so next steps can read it
+                    async def receive():
+                        return {"type": "http.request", "body": body_bytes, "more_body": False}
+                    request._receive = receive
+                    
+                    content_type = request.headers.get("content-type", "")
+                    if "application/x-www-form-urlencoded" in content_type:
+                        import urllib.parse
+                        parsed_form = urllib.parse.parse_qs(body_bytes.decode("utf-8"))
+                        username_list = parsed_form.get("username")
+                        if username_list:
+                            username = username_list[0]
+                    elif "application/json" in content_type:
+                        import json
+                        json_data = json.loads(body_bytes)
+                        username = json_data.get("username")
+                except Exception as e:
+                    logger.debug(f"Could not parse request body for rate limiting: {e}")
+        
         now = time.time()
         cutoff = now - window_seconds
-        self.requests[client_ip] = [
-            req_time for req_time in self.requests[client_ip] 
-            if req_time > cutoff
-        ]
         
-        # Check rate limit
-        if len(self.requests[client_ip]) >= max_requests:
-            logger.warning(f"Rate limit exceeded for {client_ip} on {request.url.path}")
-            return JSONResponse(
-                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                content={
-                    "status_code": 429,
-                    "message": "Too many requests",
-                    "detail": f"Rate limit exceeded. Maximum {max_requests} requests per {window_seconds} seconds.",
-                    "retry_after": window_seconds
-                },
-                headers={"Retry-After": str(window_seconds)}
-            )
+        # 1. Check IP limit
+        ip_key = f"ip:{client_ip}"
+        self.requests[ip_key] = [t for t in self.requests[ip_key] if t > cutoff]
+        if len(self.requests[ip_key]) >= max_requests:
+            logger.warning(f"IP Rate limit exceeded for {client_ip} on {request.url.path}")
+            return self._rate_limit_response(max_requests, window_seconds)
+        
+        # 2. Check Username limit (if present)
+        user_key = None
+        if username:
+            user_key = f"user:{username}"
+            self.requests[user_key] = [t for t in self.requests[user_key] if t > cutoff]
+            if len(self.requests[user_key]) >= max_requests:
+                logger.warning(f"Username Rate limit exceeded for user '{username}' on {request.url.path}")
+                return self._rate_limit_response(max_requests, window_seconds)
         
         # Record this request
-        self.requests[client_ip].append(now)
+        self.requests[ip_key].append(now)
+        if user_key:
+            self.requests[user_key].append(now)
         
         # Process request
         response = await call_next(request)
@@ -75,11 +106,33 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self'; "
+            "style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data:; "
+            "connect-src 'self' http://localhost:8000 http://127.0.0.1:8000; "
+            "frame-src 'self' https://app.powerbi.com; "
+            "frame-ancestors 'none';"
+        )
         
         if not settings.DEBUG:
             response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         
         return response
+
+    def _rate_limit_response(self, max_requests: int, window_seconds: int) -> JSONResponse:
+        return JSONResponse(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            content={
+                "status_code": 429,
+                "message": "Too many requests",
+                "detail": f"Rate limit exceeded. Maximum {max_requests} attempts per {window_seconds // 60} minutes.",
+                "retry_after": window_seconds
+            },
+            headers={"Retry-After": str(window_seconds)}
+        )
 
 
 class ErrorHandlingMiddleware(BaseHTTPMiddleware):
