@@ -104,7 +104,7 @@ graph TD
 cd backend
 cp .env.example .env
 python -m venv venv
-source .\.venv\Scripts\Activate.ps1  # Windows: .\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1  # Windows: .\.venv\Scripts\Activate.ps1
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload

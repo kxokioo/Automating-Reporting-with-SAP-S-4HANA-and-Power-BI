@@ -115,7 +115,7 @@ const MainAppContent: React.FC = () => {
         <header className="w-full border-b border-zinc-800 bg-zinc-950 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/src/assets/logo.svg" alt="Aetheris Analytics" className="w-8 h-8" />
+              <div className="w-8 h-8 flex items-center justify-center bg-blue-600 text-white font-bold rounded">A</div>
               <span className="text-lg font-bold text-white tracking-tight">Aetheris Analytics</span>
             </div>
             <div className="flex items-center gap-6">
