@@ -4,7 +4,7 @@
 
 **IMPORTANT:** Do not report security vulnerabilities in public GitHub issues.
 
-If you discover a security vulnerability in Aetheris, please email: **security@aetheris.dev**
+If you discover a security vulnerability in Aetheris, please email: **report privately**
 
 Please include:
 
@@ -59,11 +59,11 @@ requirements.txt (pin versions)
 **Secrets Management:**
 
 ```python
-# ❌ WRONG
+# WRONG
 SECRET_KEY = "my-super-secret-key"
 DATABASE_PASSWORD = "admin123"
 
-# ✅ CORRECT
+# CORRECT
 from decouple import config
 SECRET_KEY = config('SECRET_KEY')
 DATABASE_PASSWORD = config('DATABASE_PASSWORD')
@@ -72,7 +72,7 @@ DATABASE_PASSWORD = config('DATABASE_PASSWORD')
 **Input Validation:**
 
 ```python
-# ✅ Always validate user input
+# Always validate user input
 from pydantic import BaseModel, Field
 
 class QueryRequest(BaseModel):
@@ -83,10 +83,10 @@ class QueryRequest(BaseModel):
 **SQL Injection Prevention:**
 
 ```python
-# ❌ VULNERABLE
+# VULNERABLE
 query = f"SELECT * FROM users WHERE id = {user_id}"
 
-# ✅ SAFE
+# SAFE
 from sqlalchemy import text
 query = text("SELECT * FROM users WHERE id = :id")
 db.execute(query, {"id": user_id})
@@ -98,7 +98,7 @@ db.execute(query, {"id": user_id})
 // ❌ VULNERABLE
 <div dangerouslySetInnerHTML={{ __html: userInput }} />
 
-// ✅ SAFE - React escapes by default
+// SAFE - React escapes by default
 <div>{userInput}</div>
 ```
 
@@ -125,7 +125,7 @@ payload = {
 **Password Hashing:**
 
 ```python
-# ✅ Use bcrypt with proper cost factor
+# Use bcrypt with proper cost factor
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -137,7 +137,7 @@ hashed = pwd_context.hash(password, rounds=12)
 **RBAC Implementation:**
 
 ```python
-# ✅ Always check permissions
+ Always check permissions
 from fastapi import Depends, HTTPException
 
 async def require_role(required_role: str):
@@ -158,7 +158,7 @@ async def trigger_etl(user = Depends(require_role("admin"))):
 **Rate Limiting:**
 
 ```python
-# ✅ Implement rate limiting
+# Implement rate limiting
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 
@@ -173,7 +173,7 @@ async def get_data():
 **CORS Configuration:**
 
 ```python
-# ✅ Restrict CORS origins
+# Restrict CORS origins
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
@@ -191,7 +191,7 @@ app.add_middleware(
 **HTTPS Only:**
 
 ```python
-# ✅ Force HTTPS in production
+# Force HTTPS in production
 if settings.environment == "production":
     assert settings.api_url.startswith("https://")
 ```
@@ -203,11 +203,11 @@ if settings.environment == "production":
 **.env Protection:**
 
 ```bash
-# ✅ Secure .env file
+# Secure .env file
 chmod 600 .env
 echo ".env" >> .gitignore
 
-# ✅ Use secrets manager
+# Use secrets manager
 export SECRET_KEY=$(aws secretsmanager get-secret-value --secret-id aetheris/secret-key)
 ```
 
@@ -216,14 +216,14 @@ export SECRET_KEY=$(aws secretsmanager get-secret-value --secret-id aetheris/sec
 **PostgreSQL Configuration:**
 
 ```sql
--- ✅ Strong password policies
+-- Strong password policies
 ALTER USER aetheris_admin WITH PASSWORD 'VerySecurePassword!#@2026';
 
--- ✅ Restrict connections
+-- Restrict connections
 ALTER SYSTEM SET ssl = on;
 ALTER SYSTEM SET ssl_cert_file = '/path/to/cert.pem';
 
--- ✅ Row-level security
+-- Row-level security
 ALTER TABLE sensitive_data ENABLE ROW LEVEL SECURITY;
 CREATE POLICY user_isolation ON sensitive_data
     USING (user_id = current_user_id());
@@ -232,11 +232,11 @@ CREATE POLICY user_isolation ON sensitive_data
 **Backup Security:**
 
 ```bash
-# ✅ Encrypt backups
+# Encrypt backups
 pg_dump -U aetheris_admin aetheris_analytics | \
     gpg --encrypt --recipient backup@aetheris.dev > backup.sql.gpg
 
-# ✅ Store securely
+# Store securely
 mv backup.sql.gpg /secure/backup/location/
 chmod 600 /secure/backup/location/backup.sql.gpg
 ```
@@ -246,14 +246,14 @@ chmod 600 /secure/backup/location/backup.sql.gpg
 **Dockerfile Best Practices:**
 
 ```dockerfile
-# ✅ Use minimal base images
+# Use minimal base images
 FROM python:3.10-slim
 
-# ✅ Don't run as root
+# Don't run as root
 RUN useradd -m appuser
 USER appuser
 
-# ✅ Use secrets, not ENV
+# Use secrets, not ENV
 RUN --mount=type=secret,id=secret_key \
     SECRET=$(cat /run/secrets/secret_key) && \
     export SECRET=$SECRET
@@ -262,10 +262,10 @@ RUN --mount=type=secret,id=secret_key \
 **Container Registry Security:**
 
 ```bash
-# ✅ Scan for vulnerabilities
+# Scan for vulnerabilities
 docker scan aetheris_backend
 
-# ✅ Use image signing
+# Use image signing
 docker trust signer add --key cert.pem mykey registry.example.com/aetheris
 ```
 
@@ -274,10 +274,10 @@ docker trust signer add --key cert.pem mykey registry.example.com/aetheris
 **Firewall Rules:**
 
 ```bash
-# ✅ Restrict database access
+# Restrict database access
 ufw allow from 10.0.1.0/24 to any port 5432
 
-# ✅ API access only from trusted networks
+# API access only from trusted networks
 ufw allow from 0.0.0.0/0 to any port 443
 ufw deny from 0.0.0.0/0 to any port 8000  # Internal only
 ```
@@ -285,7 +285,7 @@ ufw deny from 0.0.0.0/0 to any port 8000  # Internal only
 **VPN/SSL Configuration:**
 
 ```nginx
-# ✅ SSL/TLS with strong ciphers
+# SSL/TLS with strong ciphers
 ssl_protocols TLSv1.2 TLSv1.3;
 ssl_ciphers HIGH:!aNULL:!MD5;
 ssl_prefer_server_ciphers on;
@@ -296,7 +296,7 @@ ssl_prefer_server_ciphers on;
 **Security Audit Logging:**
 
 ```python
-# ✅ Log all security events
+# Log all security events
 def audit_log(event_type: str, user_id: str, details: dict):
     logger.info(
         "SECURITY_EVENT",
@@ -368,7 +368,7 @@ audit_log("unauthorized_access", user_id, {"resource": "/admin", "denied": True}
 ### If You Discover a Vulnerability
 
 1. **Stop using the affected system** (if critical)
-2. **Immediately report** to security@aetheris.dev
+2. **Immediately report** to to me
 3. **Provide details** of the vulnerability
 4. **Do not share** in public forums
 
@@ -390,7 +390,6 @@ audit_log("unauthorized_access", user_id, {"resource": "/admin", "denied": True}
 
 ### Notification
 
-- Security mailing list: subscribe at aetheris.dev/security
 - GitHub Security Advisories
 - Release notes
 
@@ -412,12 +411,9 @@ audit_log("unauthorized_access", user_id, {"resource": "/admin", "denied": True}
 ## Questions & Support
 
 - Security documentation: [SECURITY.md](SECURITY.md)
-- Report vulnerability: security@aetheris.dev
-- General questions: support@aetheris.dev
-- Bug bounty program: (coming soon)
+- Report vulnerability: report privately via GitHub.
+- General questions: Please open a GitHub Issue or start a Discussion in this repository.
 
 ---
 
 **Security is everyone's responsibility. Thank you for helping keep Aetheris secure!**
-
-Last updated: May 2026

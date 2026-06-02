@@ -425,8 +425,5 @@ For deployment issues:
 - Check logs: `docker-compose logs`
 - Review [ARCHITECTURE.md](ARCHITECTURE.md)
 - Open an issue on GitHub
-- Contact: support@aetheris.dev
 
 ---
-
-Last updated: May 2026

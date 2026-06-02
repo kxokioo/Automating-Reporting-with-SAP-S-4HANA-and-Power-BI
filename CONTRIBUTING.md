@@ -35,9 +35,12 @@ Please read and follow our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before parti
 
    ```bash
    cd backend
+   cp .env.example .env
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   .\.venv\Scripts\Activate.ps1  # Windows: .\.venv\Scripts\Activate.ps1
+   python.exe -m pip install --upgrade pip
    pip install -r requirements.txt
+   python -m uvicorn app.main:app --reload
    ```
 
 4. **Install frontend dependencies**
@@ -147,7 +150,7 @@ Then access:
 
 ### Security Issues
 
-**Do NOT open public issues for security vulnerabilities.** Please email security@aetheris.dev with details.
+**Do NOT open public issues for security vulnerabilities.** Please report privately via GitHub.
 
 ### Bug Reports
 
@@ -207,4 +210,4 @@ Include:
 
 By contributing to Aetheris, you agree that your contributions will be licensed under the MIT License.
 
-Thank you for contributing! 🚀
+Thank you for contributing!

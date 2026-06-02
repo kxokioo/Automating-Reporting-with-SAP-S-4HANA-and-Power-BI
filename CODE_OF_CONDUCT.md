@@ -59,8 +59,8 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 
 ## Questions?
 
-If you have questions about this Code of Conduct, please contact us at conduct@aetheris.dev.
+If you have questions about this Code of Conduct, Please open a GitHub Issue or start a Discussion in this repository.
 
 ---
 
-Thank you for helping make Aetheris a welcoming community! 🌟
+Thank you for helping make Aetheris a welcoming community!

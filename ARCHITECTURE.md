@@ -524,4 +524,4 @@ Kubernetes Cluster
 
 ---
 
-For questions about architecture: architecture@aetheris.dev
+For questions about architecture: Please open a GitHub Issue or start a Discussion in this repository.
