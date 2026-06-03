@@ -31,7 +31,7 @@ Community members who violate this code of conduct may be banned from community 
 
 ### Reporting
 
-If you experience or witness unacceptable behavior, or have any other concerns, please report it by contacting the project team at conduct@aetheris.dev. All reports will be handled with discretion.
+If you experience or witness unacceptable behavior, or have any other concerns, please report it via GitHub only. All reports will be handled with discretion.
 
 ### Investigation
 

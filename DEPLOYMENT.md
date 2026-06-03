@@ -51,7 +51,7 @@ JWT_EXPIRATION_HOURS=24
 
 ```env
 VITE_API_URL=https://api.yourdomain.com
-VITE_APP_NAME=Aetheris
+VITE_APP_NAME=APP_NAME
 ```
 
 ### 3. Secure Configuration

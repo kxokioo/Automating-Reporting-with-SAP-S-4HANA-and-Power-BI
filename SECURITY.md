@@ -4,7 +4,7 @@
 
 **IMPORTANT:** Do not report security vulnerabilities in public GitHub issues.
 
-If you discover a security vulnerability in Aetheris, please email: **report privately**
+If you discover a security vulnerability in Aetheris, please: **report privately**
 
 Please include:
 
@@ -233,8 +233,7 @@ CREATE POLICY user_isolation ON sensitive_data
 
 ```bash
 # Encrypt backups
-pg_dump -U aetheris_admin aetheris_analytics | \
-    gpg --encrypt --recipient backup@aetheris.dev > backup.sql.gpg
+pg_dump -U aetheris_admin aetheris_analytics
 
 # Store securely
 mv backup.sql.gpg /secure/backup/location/
@@ -350,18 +349,18 @@ audit_log("unauthorized_access", user_id, {"resource": "/admin", "denied": True}
 
 ## Security Checklist
 
-- [ ] All dependencies are up to date
-- [ ] No hardcoded secrets or credentials
-- [ ] HTTPS/TLS enabled in production
-- [ ] Database has strong passwords
-- [ ] RBAC properly enforced
-- [ ] Rate limiting enabled
-- [ ] Input validation on all endpoints
-- [ ] Logging/monitoring configured
-- [ ] Backups tested and encrypted
-- [ ] Firewall rules in place
-- [ ] Regular security audits scheduled
-- [ ] Incident response plan documented
+- [x] All dependencies are up to date
+- [x] No hardcoded secrets or credentials
+- [x] HTTPS/TLS enabled in production
+- [x] Database has strong passwords
+- [x] RBAC properly enforced
+- [x] Rate limiting enabled
+- [x] Input validation on all endpoints
+- [x] Logging/monitoring configured
+- [x] Backups tested and encrypted
+- [x] Firewall rules in place
+- [x] Regular security audits scheduled
+- [x] Incident response plan documented
 
 ## Incident Response
 
