@@ -49,6 +49,8 @@ jobs:
           echo "--- end preview ---"
 
       - name: Run Backend Pytest Suite
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           cd backend
           pytest
