@@ -24,12 +24,29 @@ jobs:
           pip install -r requirements.txt
           pip install pytest httpx
 
-      - name: Create .env file for testing
+      - name: Debug - verify SECRET_KEY is provided to the job
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          # Print numeric length only (do not reveal the secret)
+          if [ -z "$SECRET_KEY" ]; then
+            echo "ERROR: SECRET_KEY is empty or not available to the job"
+            exit 1
+          fi
+          echo "SECRET_KEY length: ${#SECRET_KEY}"
+
+      - name: Create .env file for testing (use job env variable)
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           cd backend
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env
-          echo "DEBUG=true" >> .env
-          echo "USE_MOCK_SAP=true" >> .env
+          # Use the shell variable so interpolation happens at runtime
+          printf "SECRET_KEY=%s\n" "$SECRET_KEY" > .env
+          printf "DEBUG=true\n" >> .env
+          printf "USE_MOCK_SAP=true\n" >> .env
+          echo "--- .env preview (first 2 lines, secret masked by GitHub) ---"
+          head -n 2 .env || true
+          echo "--- end preview ---"
 
       - name: Run Backend Pytest Suite
         run: |
