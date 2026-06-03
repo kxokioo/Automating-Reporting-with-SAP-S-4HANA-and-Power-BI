@@ -9,8 +9,6 @@ on:
 jobs:
   backend-test:
     runs-on: ubuntu-latest
-    env:
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - uses: actions/checkout@v3
 
@@ -25,6 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest httpx
+
+      - name: Create .env file for testing
+        run: |
+          cd backend
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env
+          echo "DEBUG=true" >> .env
+          echo "USE_MOCK_SAP=true" >> .env
 
       - name: Run Backend Pytest Suite
         run: |
