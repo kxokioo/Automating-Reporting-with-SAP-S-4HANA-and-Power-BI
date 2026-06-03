@@ -12,7 +12,7 @@ jobs:
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
@@ -46,7 +46,7 @@ jobs:
   frontend-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v3
