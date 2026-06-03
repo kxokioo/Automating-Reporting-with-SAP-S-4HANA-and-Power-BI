@@ -48,6 +48,26 @@ jobs:
           head -n 2 .env || true
           echo "--- end preview ---"
 
+      - name: Verify SECRET_KEY in Python process
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          cd backend
+            python - <<'PY'
+            import os
+            val = os.getenv('SECRET_KEY')
+            print('PYTHON: SECRET_KEY present:', bool(val))
+            print('PYTHON: SECRET_KEY length:', len(val) if val else 0)
+            print('PYTHON: .env exists and first line:')
+            try:
+              with open('.env','r') as f:
+                for i,line in enumerate(f):
+                  if i>2: break
+                  print(line.strip())
+            except Exception as e:
+              print('PYTHON: .env read error:', e)
+            PY
+
       - name: Run Backend Pytest Suite
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
