@@ -9,6 +9,8 @@ on:
 jobs:
   backend-test:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - uses: actions/checkout@v3
 
@@ -24,53 +26,19 @@ jobs:
           pip install -r requirements.txt
           pip install pytest httpx
 
-      - name: Debug - verify SECRET_KEY is provided to the job
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        run: |
-          # Print numeric length only (do not reveal the secret)
-          if [ -z "$SECRET_KEY" ]; then
-            echo "ERROR: SECRET_KEY is empty or not available to the job"
-            exit 1
-          fi
-          echo "SECRET_KEY length: ${#SECRET_KEY}"
-
-      - name: Create .env file for testing (use job env variable)
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      - name: Create .env file and verify SECRET_KEY
         run: |
           cd backend
-          # Use the shell variable so interpolation happens at runtime
           printf "SECRET_KEY=%s\n" "$SECRET_KEY" > .env
           printf "DEBUG=true\n" >> .env
           printf "USE_MOCK_SAP=true\n" >> .env
-          echo "--- .env preview (first 2 lines, secret masked by GitHub) ---"
-          head -n 2 .env || true
+          echo "--- .env preview (masked) ---"
+          head -n 2 .env
           echo "--- end preview ---"
-
-      - name: Verify SECRET_KEY in Python process
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        run: |
-          cd backend
-            python - <<'PY'
-            import os
-            val = os.getenv('SECRET_KEY')
-            print('PYTHON: SECRET_KEY present:', bool(val))
-            print('PYTHON: SECRET_KEY length:', len(val) if val else 0)
-            print('PYTHON: .env exists and first line:')
-            try:
-              with open('.env','r') as f:
-                for i,line in enumerate(f):
-                  if i>2: break
-                  print(line.strip())
-            except Exception as e:
-              print('PYTHON: .env read error:', e)
-            PY
+          echo "ENV SECRET_KEY length: ${#SECRET_KEY}"
+          python -c "import os; print('PYTHON SECRET_KEY present:', bool(os.getenv('SECRET_KEY'))); print('PYTHON SECRET_KEY length:', len(os.getenv('SECRET_KEY') or ''))"
 
       - name: Run Backend Pytest Suite
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           cd backend
           pytest

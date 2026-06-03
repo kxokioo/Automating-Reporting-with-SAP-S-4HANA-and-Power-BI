@@ -1,6 +1,11 @@
 import os
+import secrets
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+
+# Provide a runtime fallback SECRET_KEY for CI/test runs when a secret is unavailable.
+if os.environ.get("PYTEST_CURRENT_TEST") or os.environ.get("GITHUB_ACTIONS"):
+    os.environ.setdefault("SECRET_KEY", secrets.token_urlsafe(32))
 
 class Settings(BaseSettings):
     # App General
