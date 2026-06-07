@@ -116,3 +116,4 @@ def test_powerbi_embed_token():
     assert data["status"] == "Authenticated"
     assert "accessToken" in data
     assert "Finance_Global" in data["rlsContext"]["roles"]
+    .
