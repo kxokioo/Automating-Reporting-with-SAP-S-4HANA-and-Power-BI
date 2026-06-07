@@ -106,7 +106,7 @@ cd backend
 python -m venv venv
 .\.venv\Scripts\Activate.ps1  # Windows: .\.venv\Scripts\Activate.ps1
 python.exe -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 python -m uvicorn app.main:app --reload
 ```
 
