@@ -107,15 +107,17 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
         response.headers["Referrer-Policy"] = "no-referrer-when-downgrade"
-        response.headers["Content-Security-Policy"] = (
-            "default-src 'self'; "
-            "script-src 'self'; "
-            "style-src 'self' 'unsafe-inline'; "
-            "img-src 'self' data:; "
-            "connect-src 'self' http://localhost:8000 http://127.0.0.1:8000; "
-            "frame-src 'self' https://app.powerbi.com; "
-            "frame-ancestors 'none';"
-        )
+
+        if not request.url.path.startswith(("/docs", "/redoc", "/openapi.json")):
+            response.headers["Content-Security-Policy"] = (
+                "default-src 'self'; "
+                "script-src 'self'; "
+                "style-src 'self' 'unsafe-inline'; "
+                "img-src 'self' data:; "
+                "connect-src 'self' http://localhost:8000 http://127.0.0.1:8000; "
+                "frame-src 'self' https://app.powerbi.com; "
+                "frame-ancestors 'none';"
+            )
         
         if not settings.DEBUG:
             response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
